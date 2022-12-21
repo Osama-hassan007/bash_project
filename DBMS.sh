@@ -153,33 +153,25 @@ do
 	"insert into table")
 	echo "available tables : "
 	ls -F 
-	echo "enter table name : "
-	read inserttb
-	if [[ -f inserttb ]];
-		then
-			typeset -i nf =`awk -F : '{
-				if (NR==1)
-				{print 	NF}
-			} ' /$inserttb ;`
-			for ((i=1 ; i<=$nf ; i++)); do
-				colg = ` awk -F : -v"i=$i" '{ if (NR==1){print $i }}' / $inserttb ; `
-				sign=0;
-				while [[ $sign=0 ]]; do
-					echo "enter $colg "
-					read value
-					if [[ $colg = "int" && "$value" = +([0-9]) || $colg = "string" && "$value" = +([a-zA-Z]) ]]; then
-						if  [[ $i != $nf ]]; then
-							echo -n $value":" >>$inserttb;
-						else 
-							echo $value >> $inserttb;
-						fi 
-						sign=1;
-					fi
-				done 
-			done 
-		else 
-		echo "$inserttb not exist "	
-	fi				
+	read -p " Select the table you want to insert into? " TableSelected
+                if [[ -f $TableSelected ]] ; then
+                  for ((i = 1; i <= n; i++)); do
+                    read -p "Enter the data you want in column number $i: " FirstData
+                    if [[ $ct= "int" && $FirstData =~ ^[0-9]$ || $ct= "string" && $FirstData =~ ^[a-z|A-Z]+$ ]]; then
+                      if [[ $i != $n]] ; then
+                        echo -n "$FirstData |" >>$TableSelected
+                        
+                      else
+                        echo "$FirstData" >>$TableSelected
+                      
+                      fi
+                    else
+                      echo "Value can't be added"
+                    fi
+                  done
+                else
+                exit
+                fi  			
 	;;
 	"select from table")
 	;;
