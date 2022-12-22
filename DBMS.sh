@@ -113,6 +113,7 @@ do
 		fi	
 	done
 	echo "$tn has been created sucsesfuly"
+	echo -e "\n" >>$tn
 	menu_table	 
 	;;
 	"lsit tables")
@@ -153,25 +154,36 @@ do
 	"insert into table")
 	echo "available tables : "
 	ls -F 
-	read -p " Select the table you want to insert into? " TableSelected
-                if [[ -f $TableSelected ]] ; then
-                  for ((i = 1; i <= n; i++)); do
-                    read -p "Enter the data you want in column number $i: " FirstData
-                    if [[ $ct= "int" && $FirstData =~ ^[0-9]$ || $ct= "string" && $FirstData =~ ^[a-z|A-Z]+$ ]]; then
-                      if [[ $i != $n]] ; then
-                        echo -n "$FirstData |" >>$TableSelected
-                        
-                      else
-                        echo "$FirstData" >>$TableSelected
-                      
-                      fi
-                    else
-                      echo "Value can't be added"
-                    fi
+	echo "select table you want insert :"
+	read selctedtable
+	if [[ -f $selctedtable  ]]; then  
+                  typeset -i cn = $(awk -F"|" '{if(NR==1){print NF}}' $selctedtable)
+            		for ((i =1; i <= $cn; i++)); do
+						colname=$(awk -F"|" -v"i=$i" '{if(NR==1){print $i}}' $selctedtable)
+						coltype=$(awk -F"|" -v"i=$i" '{if(NR==1){print $i}}' $selctedtable)
+                    
+						while true; do
+						read -p "Enter $colname" value
+						
+							if [[ $i != $cn ]]; then
+								
+								echo -n $value"|" >>$selctedtable
+								echo "Value 1 Added!"
+								break
+								else
+								echo -n $value >>$selctedtable
+								echo "Value 2 Added!"
+								break
+							fi
+						
+						
+						
+						done
                   done
-                else
-                exit
-                fi  			
+      	else
+         echo "$selctedtable doesn't exist"
+
+    fi
 	;;
 	"select from table")
 	;;
