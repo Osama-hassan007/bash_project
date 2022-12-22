@@ -113,7 +113,7 @@ do
 		fi	
 	done
 	echo "$tn has been created sucsesfuly"
-	echo -e "\n" >>$tn
+	echo -e  >>$tn
 	menu_table	 
 	;;
 	"lsit tables")
