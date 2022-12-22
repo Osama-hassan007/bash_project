@@ -154,36 +154,35 @@ do
 	"insert into table")
 	echo "available tables : "
 	ls -F 
-	echo "select table you want insert :"
-	read selctedtable
-	if [[ -f $selctedtable  ]]; then  
-                  typeset -i cn = $(awk -F"|" '{if(NR==1){print NF}}' $selctedtable)
-            		for ((i =1; i <= $cn; i++)); do
-						colname=$(awk -F"|" -v"i=$i" '{if(NR==1){print $i}}' $selctedtable)
-						coltype=$(awk -F"|" -v"i=$i" '{if(NR==1){print $i}}' $selctedtable)
-                    
-						while true; do
-						read -p "Enter $colname" value
-						
-							if [[ $i != $cn ]]; then
-								
-								echo -n $value"|" >>$selctedtable
-								echo "Value 1 Added!"
-								break
-								else
-								echo -n $value >>$selctedtable
-								echo "Value 2 Added!"
-								break
-							fi
-						
-						
-						
-						done
-                  done
-      	else
-         echo "$selctedtable doesn't exist"
+	read -p "Enter table Name: " insertb
+                if [[ -f $insertb ]]; then
+                  typeset -i cn=$(awk -F"|" '{if(NR==1){print NF}}' $insertb)
 
-    fi
+                  for ((i = 1; i <= $cn; i++)); do
+                    colname=$(awk -F"|" -v"i=$i" '{if(NR==1){print $i}}' $insertb)
+                    coltype=$(awk -F"|" -v"i=$i" '{if(NR==1){print $i}}' $insertb)
+                    
+                    while true; do
+                      read -p "Enter $colname " value
+                      
+                        if [[ $i != $cn ]]; then
+                          
+                          echo -n $value"|" >>$insertb
+                          echo "Value 1 Added!"
+                          break
+                        else
+                          echo -n $value >>$insertb
+                          echo "Value 2 Added!"
+                          break
+                        fi
+                      
+                      
+                      
+                    done
+                  done
+                else
+                  echo "$insertb doesn't exist"
+                fi
 	;;
 	"select from table")
 	;;
