@@ -234,6 +234,31 @@ do
 	fi 
 	;;
 	"delete from table")
+	echo "available tables : "
+	ls -F 
+	read -p "Enter table Name: " dtb
+		if [[ -f $dtb ]]; then
+				awk -F "|" 'BEGIN{FS=" | "}{if(NR==1){print $0}}' $dtb;
+				read -p "Enter column to delete record from  : " coldel;
+				read -p "Enter value : " vldel;
+				awk -F "|"  'BEGIN{FS="|"}
+				{
+					if(NR==1){
+						for(i=1;i<=NF;i++){
+							if($i=="'$coldel'"){var=i}
+						}
+					}
+					else{
+						if($var=='$vldel'){
+							loc=NR
+						}
+					}
+					{if(NR!=loc)print 
+					}
+				}' $dtb > tmp $dtb;
+			else
+				echo "$dtb doesn't exist";
+		fi
 	;;
 	"update table")
 	;;
