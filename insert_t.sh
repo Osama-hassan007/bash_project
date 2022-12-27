@@ -8,7 +8,7 @@ echo "available tables : "
                     colname=$(awk -F"|" -v"i=$i" '{if(NR==1){print $i}}' $insertb)
                     coltype=$(awk -F"|" -v"i=$i" '{if(NR==1){print $i}}' $insertb)
                  
-				    
+                      
                     while true; do
                       read -p "Enter $colname " value
                       
@@ -18,7 +18,7 @@ echo "available tables : "
                           echo "Value 1 Added!"
                           break
                         else
-                          echo -n $value >>$insertb
+                          echo  $value >>$insertb
                           echo "Value 2 Added!"
                           break
 
